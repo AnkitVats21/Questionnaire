@@ -47,10 +47,9 @@ class User(AbstractBaseUser):
         max_length=255,
         unique=True,
     )
-    active      = models.BooleanField(default=True)
+    active      = models.BooleanField(default=False)
     staff       = models.BooleanField(default=False)
     admin       = models.BooleanField(default=False)
-    otp         = models.BooleanField(default=False)
     teacher     = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
@@ -86,12 +85,8 @@ class User(AbstractBaseUser):
         return self.active
 
     @property
-    def otp_verified(self):
-        return self.otp
-
-    @property
-    def is_restaurent(self):
-        return self.restaurent
+    def is_teacher(self):
+        return self.teacher
     
 class UserProfile(models.Model):
 
@@ -104,11 +99,3 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.name
-    
-class OTP(models.Model):
-    otp         = models.CharField(max_length = 6)
-    otp_email   = models.EmailField(max_length= 255)
-    time        = models.IntegerField()
-
-    def __str__(self):
-        return self.otp_email

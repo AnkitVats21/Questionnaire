@@ -4,6 +4,7 @@ from userauth.models import User
 question_type   = (('MCQ','MCQ'),('True_Flase','True_False'),('Description','Description'))
 
 class Quiz(models.Model):
+    quiz_code   = models.CharField(max_length=9, unique=True)
     user        = models.ForeignKey(User, on_delete=models.CASCADE)
     name        = models.CharField(max_length=100)
     time        = models.TimeField(auto_now=True)
@@ -30,6 +31,7 @@ class Question(models.Model):
     
 class Answers(models.Model):
     user        = models.ForeignKey(User, on_delete=models.CASCADE)
+    quiz        = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question    = models.ForeignKey(Question, on_delete=models.CASCADE)
     choosen     = models.CharField(max_length=100, blank=True, null=True)
     true_false  = models.BooleanField()
